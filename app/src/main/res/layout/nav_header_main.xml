@@ -16,7 +16,7 @@
             android:id="@+id/userImageNavHeader"
             app:srcCompat="@drawable/dark1" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/logInBtnNavHeader"/>
+            app:layout_constraintBottom_toTopOf="@+id/logInBtnNavHeader"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/logInBtnNavHeader" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:onClick="loginBtnNavClicked"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" android:onClick="loginBtnNavOnClick"
             android:background="@android:color/transparent" android:textColor="#FFFFFF" android:textSize="18sp"/>
     <ImageButton
             android:layout_width="20dp"
