@@ -49,6 +49,6 @@
             android:background="@android:color/transparent" android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/logInBtnNavHeader" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp" android:id="@+id/addChannelBtn"
-            android:onClick="addChannelClicked"/>
+            android:onClick="addChannelOnClick"/>
 
 </android.support.constraint.ConstraintLayout>
