@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+
+    <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp" tools:srcCompat="@drawable/dark1"
+            android:id="@+id/messageUserImage" app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/messageUserNameLable" app:layout_constraintStart_toEndOf="@+id/messageUserImage"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp" android:layout_marginLeft="8dp" android:layout_marginStart="8dp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeStampLable"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintStart_toEndOf="@+id/messageUserNameLable"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"/>
+    <TextView
+            android:text="this is a text box. there are a lot of messages in this text. tkfanjklj. this is a naery bad kepdiajfadskkfjthis is a very bad keyboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/messageBodyLable" app:layout_constraintStart_toEndOf="@+id/messageUserImage"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/timeStampLable" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:layout_marginTop="8dp"/>
+</android.support.constraint.ConstraintLayout>

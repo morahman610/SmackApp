@@ -9,11 +9,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import com.example.smack.Adapters.MessageAdapter
 import com.example.smack.Model.Channel
 import com.example.smack.Model.Message
 import com.example.smack.R
@@ -32,12 +34,18 @@ class MainActivity : AppCompatActivity() {
 
     val socket = IO.socket(SOCKET_URL)
     lateinit var channelAdapter: ArrayAdapter<Channel>
+    lateinit var messageAdapter: MessageAdapter
 
     var selectedChannel : Channel? = null
 
     private fun setupAdapter() {
         channelAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, MessageService.channels)
         channel_list.adapter = channelAdapter
+
+        messageAdapter = MessageAdapter(this,MessageService.messages)
+        messagesRecyvlerView.adapter = messageAdapter
+        val layoutManager = LinearLayoutManager(this)
+        messagesRecyvlerView.layoutManager = layoutManager
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,6 +118,17 @@ class MainActivity : AppCompatActivity() {
 
     fun updateWithChannel() {
         mainChannelName.text = "#${selectedChannel?.name}"
+
+        if(selectedChannel != null) {
+            MessageService.getMessages(selectedChannel!!.id) { complete ->
+                if (complete) {
+                    messageAdapter.notifyDataSetChanged()
+                    if(messageAdapter.itemCount > 0) {
+                        messagesRecyvlerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+                    }
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -126,6 +145,8 @@ class MainActivity : AppCompatActivity() {
 
         if(App.sharedPreferences.isLoggedIn) {
             UserDataService.logout()
+            channelAdapter.notifyDataSetChanged()
+            messageAdapter.notifyDataSetChanged()
             userNameNavHeader.text = ""
             userEmailNavHeader.text = ""
             userImageNavHeader.setImageResource(R.drawable.profiledefault)
@@ -162,34 +183,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val onNewChannel = Emitter.Listener { args ->
-        runOnUiThread {
-            val channelName = args[0] as String
-            val channelDescription = args[1] as String
-            val channelId = args[2] as String
 
-            val newChannel = Channel(channelName, channelDescription,channelId)
-            MessageService.channels.add(newChannel)
-            channelAdapter.notifyDataSetChanged()
-            println(newChannel.name)
-            println(newChannel.description)
-            println(newChannel.id)
+        if(App.sharedPreferences.isLoggedIn) {
+            runOnUiThread {
+                val channelName = args[0] as String
+                val channelDescription = args[1] as String
+                val channelId = args[2] as String
+
+                val newChannel = Channel(channelName, channelDescription,channelId)
+                MessageService.channels.add(newChannel)
+                channelAdapter.notifyDataSetChanged()
+                println(newChannel.name)
+                println(newChannel.description)
+                println(newChannel.id)
+            }
         }
+
+
     }
 
     private val onNewMessage = Emitter.Listener { args ->
-        runOnUiThread {
-            val msgBody = args[0] as String
-            val channelId = args[2] as String
-            val userName = args[3] as String
-            val userAvatar = args[4] as String
-            val userAvatarColor = args[5] as String
-            val id = args[6] as String
-            val timeStamp = args[7] as String
 
-            val newMessage = Message(msgBody,userName,channelId, userAvatar, userAvatarColor, id, timeStamp)
-            MessageService.messages.add(newMessage)
-            println(newMessage.message)
+        if(App.sharedPreferences.isLoggedIn) {
+            runOnUiThread {
+                val msgBody = args[0] as String
+                val channelId = args[2] as String
+                if(channelId == selectedChannel?.id) {
+                    val userName = args[3] as String
+                    val userAvatar = args[4] as String
+                    val userAvatarColor = args[5] as String
+                    val id = args[6] as String
+                    val timeStamp = args[7] as String
+
+                    val newMessage = Message(msgBody,userName,channelId, userAvatar, userAvatarColor, id, timeStamp)
+                    MessageService.messages.add(newMessage)
+                    messageAdapter.notifyDataSetChanged()
+                    messagesRecyvlerView.smoothScrollToPosition(messageAdapter.itemCount -1)
+                }
+
+            }
         }
+
     }
 
     fun sendMessageBtnOnClick(view: View) {
