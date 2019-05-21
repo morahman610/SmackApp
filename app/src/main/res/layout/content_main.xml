@@ -35,7 +35,8 @@
             android:id="@+id/sendImageBtn"
             android:tint="@color/colorPrimary" android:background="@android:color/transparent"
             android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"/>
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
+            android:onClick="sendMessageBtnOnClick"/>
     <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp" android:layout_marginTop="8dp"
